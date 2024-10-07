@@ -1,4 +1,4 @@
-import { options } from './config';
+import { options, whitelist } from './config';
 import { loadSiteConfig } from './utils';
 import path from 'path';
 import fg from 'fast-glob';
@@ -30,6 +30,36 @@ async function main() {
     console.group(`Translating ${locale}:`);
 
     await translateDocs(locale);
+    await translateJSON(
+      locale,
+      path.resolve(
+        siteDir,
+        './i18n',
+        locale,
+        './docusaurus-plugin-content-docs/current.json'
+      ),
+      ['sidebar.tutorialSidebar.category.']
+    );
+    await translateJSON(
+      locale,
+      path.resolve(
+        siteDir,
+        './i18n',
+        locale,
+        './docusaurus-theme-classic/footer.json'
+      ),
+      ['link.title.', 'link.item.label.']
+    );
+    await translateJSON(
+      locale,
+      path.resolve(
+        siteDir,
+        './i18n',
+        locale,
+        './docusaurus-theme-classic/navbar.json'
+      ),
+      ['item.label.']
+    );
 
     console.groupEnd();
   }
@@ -61,13 +91,12 @@ async function translateDocs(locale: string) {
 
     if (await fs.exists(targetPath)) {
       // translated file existed and not changed, skip
-      const { data: targetData } = matter.read(sourcePath);
+      const { data: targetData } = matter.read(targetPath);
 
       if (!targetData._i18n_hash) {
         console.log('This file is created manual, skip:', targetFile);
         continue;
       }
-
       if (targetData._i18n_hash === filehash) {
         console.log('This source file not changed, skip:', targetFile);
         continue;
@@ -96,10 +125,68 @@ async function translateDocs(locale: string) {
       'utf8'
     );
     console.log(
-      'Writed translated file into',
+      'Writed translated file into:',
       targetPath,
       ', token usage:',
       usage
+    );
+  }
+}
+
+async function translateJSON(
+  locale: string,
+  jsonPath: string,
+  prefixList: string[]
+) {
+  if (!(await fs.exists(jsonPath))) {
+    console.warn(
+      'Skip translation json config because you need to run `docusaurus write-translations` first, locale:',
+      locale
+    );
+    return;
+  }
+
+  console.log('Checking json....:', path.relative(siteDir, jsonPath));
+
+  const json = await fs.readJson(jsonPath);
+
+  let modified = false;
+  for (const key of Object.keys(json)) {
+    for (const prefix of prefixList) {
+      if (
+        key.startsWith(prefix) &&
+        json[key]?.message &&
+        key.substring(prefix.length) === json[key].message
+      ) {
+        if (
+          whitelist.some(
+            (word) =>
+              word.toLowerCase() === String(json[key].message).toLowerCase()
+          )
+        ) {
+          // if word is in whitelist, skip
+          continue;
+        }
+
+        // should be translate
+        json[key].message = (
+          await translate(json[key].message, locale)
+        ).content;
+        modified = true;
+      }
+    }
+  }
+
+  if (modified) {
+    await fs.writeJson(jsonPath, json, { spaces: 2 });
+    console.log(
+      'Writed translated file into:',
+      path.relative(siteDir, jsonPath)
+    );
+  } else {
+    console.log(
+      'No need to translate, Skip:',
+      path.relative(siteDir, jsonPath)
     );
   }
 }

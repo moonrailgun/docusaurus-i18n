@@ -28,3 +28,13 @@ export const options = program.opts<{
   model: string;
   project: string;
 }>();
+
+export const whitelist = [
+  'Discord',
+  'Github',
+  'API',
+  'Twitter',
+  'copyright',
+  'Kubernetes',
+  'Stack Overflow',
+];
