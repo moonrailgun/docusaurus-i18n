@@ -9,6 +9,8 @@ i18n: {
 },
 ```
 
+If you not init basic i18n config in your docusaurus config, you can checkout this url: [https://docusaurus.io/docs/i18n/introduction](https://docusaurus.io/docs/i18n/introduction)
+
 Then:
 
 Run this command:
