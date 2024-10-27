@@ -7,6 +7,11 @@ program
     process.env.OPENAI_API_KEY
   )
   .option(
+    '--organization [key]',
+    'OpenAI organization ID',
+    process.env.OPENAI_ORGANIZATION
+  )
+  .option(
     '--baseUrl [url]',
     'OpenAI base url which can be change for other use'
   )
@@ -24,6 +29,7 @@ program
 
 export const options = program.opts<{
   apiKey?: string;
+  organization?: string;
   baseUrl?: string;
   model: string;
   project: string;

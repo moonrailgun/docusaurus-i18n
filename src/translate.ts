@@ -5,6 +5,7 @@ export async function translate(content: string, targetLanguage: string) {
   const client = new OpenAI({
     baseURL: options.baseUrl,
     apiKey: options.apiKey,
+    organization: options.organization,
   });
 
   const chatCompletion = await client.chat.completions.create({
