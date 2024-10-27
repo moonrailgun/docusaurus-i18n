@@ -80,7 +80,7 @@ async function translateDocs(locale: string) {
     './docusaurus-plugin-content-docs/current'
   );
 
-  const documents = await fg(path.resolve(sourceDir, './**/*.md'));
+  const documents = await fg(path.resolve(sourceDir, './**/*.{md,mdx}'));
 
   for (const sourcePath of documents) {
     const targetFile = path.relative(sourceDir, sourcePath);
