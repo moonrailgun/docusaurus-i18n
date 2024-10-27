@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-i18n",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "tsx ./src/index.ts",
     "build": "tsc",
+    "prepare": "tsc",
     "release": "npm publish --registry=https://registry.npmjs.com/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -69,10 +69,9 @@ async function loadFreshModule(modulePath: string): Promise<unknown> {
     return load(modulePath);
   } catch (error) {
     throw new Error(
-      logger.interpolate`Docusaurus could not load module at path path=${modulePath}\nCause: ${
+      `Docusaurus could not load module at path ${modulePath}\nCause: ${
         (error as Error).message
-      }`,
-      { cause: error }
+      }`
     );
   }
 }
