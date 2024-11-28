@@ -27,6 +27,10 @@ OPENAI_API_KEY=sk-xxxxxx npx docusaurus-i18n
 npx docusaurus-i18n --help
 ```
 
+## Who is using `docusaurus-i18n`
+
+- [Tianji](https://github.com/msgbyte/tianji/tree/master/website)
+
 ## Reference locale code
 
 [https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)
