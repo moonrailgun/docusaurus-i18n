@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { ProxyAgent } from 'proxy-agent';
 import { options } from './config';
 
 export async function translate(content: string, targetLanguage: string) {
@@ -6,6 +7,7 @@ export async function translate(content: string, targetLanguage: string) {
     baseURL: options.baseUrl,
     apiKey: options.apiKey,
     organization: options.organization,
+    httpAgent: new ProxyAgent(),
   });
 
   const chatCompletion = await client.chat.completions.create({

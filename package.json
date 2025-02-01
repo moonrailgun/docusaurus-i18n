@@ -28,7 +28,8 @@
     "gray-matter": "^4.0.3",
     "jiti": "^2.2.1",
     "md5": "^2.3.0",
-    "openai": "^4.67.1"
+    "openai": "^4.67.1",
+    "proxy-agent": "^6.5.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
