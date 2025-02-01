@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-i18n",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "bin": {
