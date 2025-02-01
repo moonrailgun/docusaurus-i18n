@@ -80,7 +80,16 @@ async function translateDocs(locale: string) {
     './docusaurus-plugin-content-docs/current'
   );
 
-  const documents = await fg(path.resolve(sourceDir, './**/*.md'));
+  const documents = await fg(
+    fg.convertPathToPattern(path.resolve(sourceDir, './**/*.md'))
+  ); // use `convertPathToPattern` to add window support
+
+  if (documents.length === 0) {
+    console.warn(
+      `No any docs found which end with .md under ${sourceDir}, please checkout your path.`
+    );
+    return;
+  }
 
   for (const sourcePath of documents) {
     const targetFile = path.relative(sourceDir, sourcePath);
