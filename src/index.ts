@@ -6,6 +6,7 @@ import matter from 'gray-matter';
 import fs from 'fs-extra';
 import md5 from 'md5';
 import { translate } from './translate';
+import os from 'os';
 
 const siteDir = options.project;
 
@@ -81,8 +82,10 @@ async function translateDocs(locale: string) {
   );
 
   const documents = await fg(
-    fg.convertPathToPattern(path.resolve(sourceDir, './**/*.md'))
-  ); // use `convertPathToPattern` to add window support
+    os.platform() === 'win32'
+      ? fg.convertPathToPattern(path.resolve(sourceDir, './**/*.md')) // use `convertPathToPattern` to add window support
+      : path.resolve(sourceDir, './**/*.md')
+  );
 
   if (documents.length === 0) {
     console.warn(
