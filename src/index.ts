@@ -152,8 +152,7 @@ async function translateJSON(
 ) {
   if (!(await fs.exists(jsonPath))) {
     console.warn(
-      'Skip translation json config because you need to run `docusaurus write-translations` first, locale:',
-      locale
+      `Skip translation json config because you need to run \`docusaurus write-translations\ --locale ${locale}\` first, locale:`
     );
     return;
   }
